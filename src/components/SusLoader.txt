@@ -1,0 +1,43 @@
+<template>
+  <div class="bar">
+    <div class="postgres">
+    </div>
+    <img :style="changePos()" class="cursed" src="../assets/runningus.gif">
+  </div>
+</template>
+
+<script>
+export default {
+  name: "SusLoader",
+  data: ()=> {
+    return {
+      pos: 0
+    }
+  },
+  computed: {
+    changePos() {
+      this.pos+=1;
+      return `position: ${this.pos}`
+    }
+  }
+}
+</script>
+
+<style scoped>
+.bar {
+  width: 100%;
+  height: 10px;
+  background: black;
+  position: fixed;
+}
+.cursed {
+  width: 100px;
+  height: auto;
+  position: relative;
+}
+
+.cursed:hover{
+  transform: translateX(500px);
+  transition: all 10s linear;
+}
+</style>
