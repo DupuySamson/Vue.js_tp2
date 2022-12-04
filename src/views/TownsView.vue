@@ -8,18 +8,14 @@
         <v-row>
           <v-col cols="4">
             <v-row>
-              <v-select :items="villesFiltre" item-text="nom" item-value="_id" return-object v-model="selectedTown">
+              <v-select v-if="selectedTown == null" :items="villesFiltre" item-text="nom" item-value="_id" return-object v-model="selectedTown" label="Trouver une ville">
               </v-select>
-              <v-btn color="error" x-small v-if="villesFiltre != null" @click="clear">
-                Clear
-              </v-btn>
             </v-row>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
     <br>
-
     <v-row>
       <v-col cols="4">
         <div class="box" v-if="selectedTown == null">
@@ -46,7 +42,7 @@
                   <v-img src="../datasource/town_image.jpg"></v-img>
                 </v-avatar>
               </v-col>
-              <v-col cols="8">
+              <v-col cols="6">
                 <strong>
                   {{ selectedTown.nom }}
                 </strong>
@@ -103,6 +99,11 @@
               </v-row>
             </v-container>
           </v-card-text>
+          <v-card-actions>
+            <v-btn color="error" x-small @click="clear">
+              Clear
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="8">
