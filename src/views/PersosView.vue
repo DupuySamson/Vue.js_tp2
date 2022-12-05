@@ -10,8 +10,8 @@
       </v-row>
     </div>
     <br>
-    <div class="box" v-if="selectedCharac == null">
-      <v-card class="card" v-for="perso in persos" :key="perso['_id']" elevation="8" max-height="800" max-width="150" rounded>
+    <div class="boite" v-if="selectedCharac == null">
+      <v-card class="carte" v-for="perso in persos" :key="perso['_id']" elevation="8" max-height="800" max-width="150" rounded>
         <v-card-title>
           <v-row>
             <v-col cols="1">
@@ -114,7 +114,9 @@
       </v-card-text>
       <v-card-actions>
         <v-btn @click="clear()" color="red">
-          X
+          <v-icon small>
+            mdi-close
+          </v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -159,15 +161,173 @@ export default {
 </script>
 
 <style>
-.box {
+.boite {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
   align-items: baseline;
 }
 
-.card {
+.carte {
   margin: 10px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: futura-pt, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background: #ecf4fe;
+}
+p {
+  margin: 0;
+}
+#container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.box {
+  width:
+}
+.card {
+  cursor: pointer;
+  width: 280px;
+  padding: 15px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: -5px -5px 5px rgba(255, 255, 255, 1),
+  -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  5px 5px 5px rgba(0, 0, 0, .15);
+}
+.card .monster-name {
+  width: 100%;
+  padding: 10px 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  box-shadow: -4px -4px 4px rgba(255, 255, 255, 1),
+  -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  2px 2px 5px rgba(0, 0, 0, .15);
+}
+.card .monster-name h2 {
+  color: #126f97;
+  font-size: 18px;
+  margin: 0;
+}
+.card .monster-name h2 span {
+  font-size: 14px;
+}
+.card .monster-name .attribute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  box-shadow: -2px -2px 5px rgba(255, 255, 255, 1),
+  -2px -2px 5px rgba(255, 255, 255, .5),
+  inset 2px 2px 4px rgba(255, 255, 255, .1),
+  2px 2px 8px rgba(0, 0, 0, .15);
+}
+.card .monster-name .attribute img {
+  width: 15px;
+}
+.card .level {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.card .level img {
+  width: 12px;
+  padding: 3px;
+  border-radius: 50%;
+  box-shadow: -2px -2px 5px rgba(255, 255, 255, 1),
+  -2px -2px 5px rgba(255, 255, 255, .5),
+  inset 2px 2px 4px rgba(255, 255, 255, .1),
+  2px 2px 8px rgba(0, 0, 0, .15);
+  margin-left: 5px;
+}
+.card .monster-image {
+  width: 90%;
+  margin-top: 15px;
+  padding: 12px 12px 7px 12px;
+  border-radius: 5px;
+  box-shadow: -4px -4px 4px rgba(255, 255, 255, 1),
+  -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  2px 2px 5px rgba(0, 0, 0, .15);
+  box-sizing: border-box;
+}
+.card .monster-image img {
+  width: 100%;
+}
+.card .description {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: -4px -4px 4px rgba(255, 255, 255, 1),
+  -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  2px 2px 5px rgba(0, 0, 0, .15);
+  box-sizing: border-box;
+}
+.card .description .type {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  margin-bottom: 5px;
+}
+.card .description .atk-def {
+  margin-top: 10px;
+  padding-top: 5px;
+  border-top: solid 1px #d8d8d8;
+  font-size: 12px;
+  text-align: right;
+}
+.card:hover {
+  box-shadow: inset -5px -5px 5px rgba(255, 255, 255, 1),
+  inset -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  inset 5px 5px 5px rgba(0, 0, 0, .15);
+}
+.card:hover .monster-name,
+.card:hover .monster-image,
+.card:hover .description {
+  box-shadow: inset -4px -4px 4px rgba(255, 255, 255, 1),
+  inset -4px -4px 4px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  inset 2px 2px 5px rgba(0, 0, 0, .15);
+}
+.card:hover .monster-name .attribute,
+.card:hover .level img {
+  box-shadow: inset -1px -1px 2px rgba(255, 255, 255, 1),
+  inset -1px -1px 2px rgba(255, 255, 255, .5),
+  inset 1px 1px 2px rgba(255, 255, 255, .1),
+  inset 1px 1px 4px rgba(0, 0, 0, .15);
+}
+.card:hover p,
+.card:hover h2,
+.card:hover img {
+  transform: scale(.98);
 }
 
 </style>
