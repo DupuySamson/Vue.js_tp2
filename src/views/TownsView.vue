@@ -15,7 +15,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <br>
     <v-row>
       <v-col cols="4">
         <div class="box" v-if="selectedTown == null">
@@ -63,10 +62,10 @@
             <v-container v-else>
               <v-row>
                 <v-col>
-                  <v-row>
+                  <v-row class="justify-center">
                     <strong>Rue:</strong>
                   </v-row>
-                  <v-row>
+                  <v-row class="justify-center">
                     <v-chip @click="clearStreet">
                       {{ selectedStreet['nom'] }}
                       <v-icon small>
@@ -74,10 +73,10 @@
                       </v-icon>
                     </v-chip>
                   </v-row>
-                  <v-row v-if="selectedShop != null">
+                  <v-row v-if="selectedShop != null" class="justify-center">
                     <strong>Boutique:</strong>
                   </v-row>
-                  <v-row v-if="selectedShop != null">
+                  <v-row v-if="selectedShop != null" class="justify-center">
                     <v-chip @click="clearShop">
                       {{ selectedShop['nom'] }}
                       <v-icon small>
@@ -86,11 +85,11 @@
                     </v-chip>
                   </v-row>
                 </v-col>
-                <v-col v-if="selectedShop == null">
-                  <v-row>
+                <v-col v-if="selectedShop == null" >
+                  <v-row class="justify-center">
                     <strong>Boutiques:</strong>
                   </v-row >
-                  <v-row v-for="(boutique, id) in selectedStreet.boutiques" :key="id">
+                  <v-row v-for="(boutique, id) in selectedStreet.boutiques" :key="id" class="justify-center">
                     <v-btn width="200px" @click="selectShop(id)">
                       {{ boutique['nom']}}
                     </v-btn>
@@ -100,15 +99,16 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" x-small @click="clear">
-              Clear
+            <v-btn color="error" x-small @click="clear" >
+              <v-icon>
+                mdi-close
+              </v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="8">
         <selected-shop :shop="selectedShop"></selected-shop>
-
       </v-col>
     </v-row>
   </v-container>

@@ -1,8 +1,10 @@
 <template>
-  <v-container v-if="shop != null">
-    <v-card>
+    <v-card v-if="shop != null" elevation="10">
       <v-card-title>
         {{ shop['nom'] }}
+        <v-icon>
+          mdi-store
+        </v-icon>
       </v-card-title>
       <v-card-text>
         <v-row>
@@ -14,9 +16,7 @@
           </v-col>
         </v-row>
       </v-card-text>
-
     </v-card>
-  </v-container>
 </template>
 
 <script>

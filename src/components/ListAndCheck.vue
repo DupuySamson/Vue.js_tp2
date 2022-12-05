@@ -6,7 +6,7 @@
       </v-card-title>
       <v-card-text>
         <v-row v-for="(item, _id) in items" :key="_id">
-          <v-checkbox @change="$emit('checkedChange', _id)" v-if="itemChecked" v-model="listCheck[_id]"></v-checkbox>
+          <v-switch @change="$emit('checkedChange', _id)" v-if="itemChecked" v-model="listCheck[_id]"></v-switch>
           <v-col v-for="(champ, id) in fields" :key="id" class="justify-center">
             <v-icon>
               {{ icons[champ] }}
@@ -57,7 +57,8 @@ export default {
     checked: Array,
     itemButton: Object,
     listButton: Object,
-    icons: Object
+    icons: Object,
+    iconsForDialog: Array
   },
   data (){
     return {

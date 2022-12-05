@@ -27,7 +27,7 @@
         <v-card-actions>
           <v-btn @click="selectPerso(perso)">
             <v-icon>
-              mdi-dots-horizontal
+              mdi-information-variant
             </v-icon>
           </v-btn>
         </v-card-actions>
@@ -54,13 +54,6 @@
               </v-icon>
               </span>
             </v-row>
-          </v-col>
-          <v-col>
-            <v-btn @click="clear()">
-              <v-icon>
-                mdi-reply
-              </v-icon>
-            </v-btn>
           </v-col>
         </v-row>
       </v-card-title>
@@ -90,7 +83,7 @@
                       <v-list-item-title>
                         <h2>Inventaire:</h2>
                       </v-list-item-title>
-                      <v-list-item-subtile>
+                      <v-list-item-subtitle>
                         <v-expansion-panels multiple>
                           <v-expansion-panel v-for="(Emplacement, id) in selectedCharac.emplacements" :key="id">
                             <v-expansion-panel-header>
@@ -107,7 +100,7 @@
                             </v-expansion-panel-content>
                           </v-expansion-panel>
                         </v-expansion-panels>
-                      </v-list-item-subtile>
+                      </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-card>
@@ -119,6 +112,11 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-btn @click="clear()" color="red">
+          X
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-container>
 </template>

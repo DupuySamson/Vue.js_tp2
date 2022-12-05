@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer permanent app elevation="8">
+    <v-navigation-drawer permanent app>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">

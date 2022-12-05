@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import TownsView from '../views/TownsView.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/towns',
     name: 'towns',
-    component: TownsView
+    component: () => import('../views/TownsView.vue')
   },
   {
     path: '/persos',
