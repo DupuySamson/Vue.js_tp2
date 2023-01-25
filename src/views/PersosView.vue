@@ -83,16 +83,22 @@
                       </v-list-item-title>
                       <v-list-item-subtitle>
                         <v-expansion-panels multiple>
-                          <v-expansion-panel v-for="(Emplacement, id) in chosenPerso.emplacements" :key="id">
+                          <v-expansion-panel v-for="(Emplacement, idEmplacement) in chosenPerso.emplacements" :key="idEmplacement">
+                            <v-chip @click="equipe(idEmplacement)">
+                              +
+                            </v-chip>
                             <v-expansion-panel-header>
                               <strong>
                                 {{ Emplacement.nom }} [{{ Emplacement.items.length }}]
                               </strong>
                             </v-expansion-panel-header>
                             <v-expansion-panel-content>
-                              <v-row v-for="(item, id) in Emplacement.items" :key="id">
+                              <v-row v-for="(item, idItem) in Emplacement.items" :key="idItem">
                                 <v-col>
-                                  - {{ item.nom }}
+                                  {{ item.nom }}
+                                  <v-chip @click="desequipe(idEmplacement, idItem)">
+                                    -
+                                  </v-chip>
                                 </v-col>
                               </v-row>
                             </v-expansion-panel-content>
@@ -106,7 +112,13 @@
             </v-row>
           </v-col>
           <v-col cols="4">
-              <ListAndCheck :title="'Item achetés ['+chosenPerso.itemsAchetes.length+']'" :icons="{nom: 'mdi-treasure-chest'}" :items="chosenPerso.itemsAchetes" :fields="['nom', 'type']" :item-checked="false" :item-button="{show: false, text: ''}" :list-button="{show: false, text:''}"></ListAndCheck>
+              <ListAndCheck @itemButtonChange="resell"
+                            :title="'Sac a dos (dora) ['+chosenPerso.itemsAchetes.length+']'"
+                            :icons="{nom: 'mdi-treasure-chest'}" :items="chosenPerso.itemsAchetes"
+                            :fields="['nom', 'type']" :item-checked="false"
+                            :item-button="{show: true, text: 'revente'}"
+                            :list-button="{show: false, text:''}"
+              ></ListAndCheck>
           </v-col>
         </v-row>
       </v-card-text>
@@ -118,6 +130,40 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-dialog v-model="dialog">
+      <v-card v-if="chosenShop == null">
+        <v-card-title>
+          Alors...
+        </v-card-title>
+        <v-card-text>
+          Vous n'etes pas dans une boutique, veuillez en séléctioné une dans l'onglet shop!
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="close">Annulez</v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-card v-else>
+        <v-card-title>
+          Revente d'item
+        </v-card-title>
+        <v-card-text>
+          La revente de votre item vous rapportera un montant de {{ resellPrice }}, pour un prix d'achat de {{ buyPrice }}!
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="close">Annulez</v-btn>
+          <v-btn @click="acceptResell">Confirmer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-if="chosenPerso != null" v-model="dialogEquipe">
+      <ListAndCheck @itemButtonChange="equipeToEmplacement" @listButtonChange="closeEquipe"
+                    :title="'Sac a dos (dora rpz)'"
+                    :icons="{nom: 'mdi-treasure-chest'}" :items="chosenPerso.itemsAchetes"
+                    :fields="['nom', 'type']" :item-checked="false"
+                    :item-button="{show: true, text: 'ajouter'}"
+                    :list-button="{show: true, text:'close'}"
+      ></ListAndCheck>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -130,18 +176,15 @@ export default {
     ListAndCheck
   },
   data: () => ({
+    resellPrice: null,
+    buyPrice: null,
     filter: '',
-    items: [
-      {
-        nom: 'épée'
-      },
-      {
-        nom: 'épée mais grosse'
-      }
-    ]
+    dialog: false,
+    dialogEquipe: false,
+    idE: 0
   }),
   computed: {
-    ...mapState(['persos', 'chosenPerso']),
+    ...mapState(['persos', 'chosenPerso', 'chosenShop']),
   },
   methods: {
     clear(){
@@ -149,6 +192,43 @@ export default {
     },
     selectPerso(perso) {
       this.$store.commit('chosePerso', perso)
+    },
+    resell(indexItem){
+      this.idItem = indexItem
+      this.buyPrice = this.chosenPerso.itemsAchetes[indexItem].prix
+      this.resellPrice = Math.floor((Math.random() * (0.9 - 0.4) + 0.4) * this.chosenPerso.itemsAchetes[indexItem].prix)
+      this.dialog = true
+    },
+    acceptResell(){
+      this.$store.commit("addItem", this.chosenPerso.itemsAchetes[this.idItem])
+      this.$store.commit("sellItem", this.chosenPerso.itemsAchetes[this.idItem])
+      this.$store.commit("addGold", this.resellPrice)
+      this.close()
+    },
+    close(){
+      this.dialog = false
+    },
+    desequipe(idE, idI){
+      let values = {
+        idE: idE,
+        idI: idI
+      }
+      console.log(this.chosenPerso.emplacements[idE].items[idI].nom)
+      this.$store.commit("removeEquipe", values)
+    },
+    equipe(idE){
+      this.idE = idE
+      this.dialogEquipe = true
+    },
+    equipeToEmplacement(idI){
+      let values = {
+        idE: this.idE,
+        idI: idI
+      }
+      this.$store.commit("addEquipe", values)
+    },
+    closeEquipe(){
+      this.dialogEquipe = false
     }
   }
 }

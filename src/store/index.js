@@ -52,10 +52,21 @@ export default new Vuex.Store({
       state.chosenShop.itemStock.push(item)
     },
     sellItem(state, item) {
-      console.log(state, item)
+      state.chosenPerso.itemsAchetes.splice(item, 1)
     },
+    addGold(state, gold){
+      state.chosenPerso.or += gold
+    },
+    removeEquipe(state, values){
+      state.chosenPerso.itemsAchetes.push(state.chosenPerso.emplacements[values.idE].items[values.idI])
+      state.chosenPerso.emplacements[values.idE].items.splice(values.idI, 1)
+    },
+    addEquipe(state, values){
+      state.chosenPerso.emplacements[values.idE].items.push(state.chosenPerso.itemsAchetes[values.idI])
+      state.chosenPerso.itemsAchetes.splice(values.idI, 1)
+    },
+
   },
-  // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
   actions: {
     async getAllTowns({commit}) {
       console.log('récupération des villes');
