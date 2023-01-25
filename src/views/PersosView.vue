@@ -10,7 +10,7 @@
       </v-row>
     </div>
     <br>
-    <div class="boite" v-if="selectedCharac == null">
+    <div class="boite" v-if="chosenPerso == null">
       <v-card class="carte" v-for="perso in persos" :key="perso['_id']" elevation="8" max-height="800" max-width="150" rounded>
         <v-card-title>
           <v-row>
@@ -26,14 +26,12 @@
         </v-card-title>
         <v-card-actions>
           <v-btn @click="selectPerso(perso)">
-            <v-icon>
-              mdi-information-variant
-            </v-icon>
+            séléctionner
           </v-btn>
         </v-card-actions>
       </v-card>
     </div>
-    <v-card v-if="selectedCharac != null" :key="selectedCharac['_id']" elevation="8" shaped max-height="800" width="700">
+    <v-card v-if="chosenPerso" elevation="8" shaped max-height="800" width="700">
       <v-card-title>
         <v-row>
           <v-col>
@@ -44,11 +42,11 @@
           <v-col>
               <br>
             <v-row>
-              <h1>{{ selectedCharac.nom }}</h1>
+              <h1>{{ chosenPerso.nom }}</h1>
             </v-row>
             <v-row>
               <span>
-                {{ selectedCharac.or }}
+                {{ chosenPerso.or }}
               <v-icon>
                 mdi-circle-multiple
               </v-icon>
@@ -66,10 +64,10 @@
               </v-card-title>
               <v-card-text>
                 <v-row>
-                  Niveau: {{ selectedCharac.niveau }}
+                  Niveau: {{ chosenPerso.niveau }}
                 </v-row>
-                <v-row v-for="name in Object.keys(selectedCharac.attributs)" :key="name">
-                  {{ name }}: {{ selectedCharac.attributs[name] }}
+                <v-row v-for="name in Object.keys(chosenPerso.attributs)" :key="name">
+                  {{ name }}: {{ chosenPerso.attributs[name] }}
                 </v-row>
               </v-card-text>
             </v-card>
@@ -85,7 +83,7 @@
                       </v-list-item-title>
                       <v-list-item-subtitle>
                         <v-expansion-panels multiple>
-                          <v-expansion-panel v-for="(Emplacement, id) in selectedCharac.emplacements" :key="id">
+                          <v-expansion-panel v-for="(Emplacement, id) in chosenPerso.emplacements" :key="id">
                             <v-expansion-panel-header>
                               <strong>
                                 {{ Emplacement.nom }} [{{ Emplacement.items.length }}]
@@ -108,12 +106,12 @@
             </v-row>
           </v-col>
           <v-col cols="4">
-              <ListAndCheck :title="'Item achetés ['+selectedCharac.itemsAchetes.length+']'" :icons="{nom: 'mdi-treasure-chest'}" :items="selectedCharac.itemsAchetes" :fields="['nom', 'type']" :item-checked="false" :item-button="{show: false, text: ''}" :list-button="{show: false, text:''}"></ListAndCheck>
+              <ListAndCheck :title="'Item achetés ['+chosenPerso.itemsAchetes.length+']'" :icons="{nom: 'mdi-treasure-chest'}" :items="chosenPerso.itemsAchetes" :fields="['nom', 'type']" :item-checked="false" :item-button="{show: false, text: ''}" :list-button="{show: false, text:''}"></ListAndCheck>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="clear()" color="red">
+        <v-btn @click="selectPerso(null)" color="red">
           <v-icon small>
             mdi-close
           </v-icon>
@@ -125,14 +123,13 @@
 
 <script>
 import {mapState} from 'vuex'
-import ListAndCheck from "@/components/ListAndCheck";
+import ListAndCheck from "@/components/ListAndCheck"
 export default {
   name: 'PersosView',
   components: {
     ListAndCheck
   },
   data: () => ({
-    selectedCharac: null,
     filter: '',
     items: [
       {
@@ -144,17 +141,14 @@ export default {
     ]
   }),
   computed: {
-    ...mapState(['persos']),
-    persosFiltre() {
-        return this.persos
-    }
+    ...mapState(['persos', 'chosenPerso']),
   },
   methods: {
     clear(){
-      this.selectedCharac = null
+      this.chosenPerso = null
     },
-    selectPerso(perso){
-      this.selectedCharac = perso
+    selectPerso(perso) {
+      this.$store.commit('chosePerso', perso)
     }
   }
 }

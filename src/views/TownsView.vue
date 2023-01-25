@@ -1,23 +1,25 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <v-row>
-          <h1>Les villes</h1>
-        </v-row>
-        <v-row>
-          <v-col cols="4">
-            <v-row>
-              <v-select v-if="selectedTown == null" :items="villesFiltre" item-text="nom" item-value="_id" return-object v-model="selectedTown" label="Trouver une ville">
-              </v-select>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+    <v-card v-if="chosenPerso != null" width="150" height="150">
+      <v-card-title>
+        <v-avatar color="primary" size="60">
+          <v-img src="../datasource/profile_image.jpg"></v-img>
+        </v-avatar>
+        {{ chosenPerso.nom }}:
+      </v-card-title>
+      <v-card-text>
+        {{ chosenPerso.or}}
+        <v-icon>
+          mdi-circle-multiple
+        </v-icon>
+      </v-card-text>
+    </v-card>
+    <br>
+    <v-divider></v-divider>
+    <br>
     <v-row>
       <v-col cols="4">
-        <div class="box" v-if="selectedTown == null">
+        <div class="box" v-if="chosenTown == null">
           <v-card class="card" v-for="(ville, id) in villesFiltre" :key="id" elevation="8" width="300px">
             <v-card-title>
               <v-row>
@@ -31,9 +33,14 @@
                 </v-col>
               </v-row>
             </v-card-title>
+            <v-card-actions>
+              <v-btn @click="selecteTown(id)">
+                selectionner
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </div>
-        <v-card v-if="selectedTown != null" :key="selectedTown['id']" elevation="8" shaped width="300px">
+        <v-card v-else :key="chosenTown['id']" elevation="8" shaped width="300px">
           <v-card-title>
             <v-row>
               <v-col cols="4">
@@ -43,17 +50,17 @@
               </v-col>
               <v-col cols="6">
                 <strong>
-                  {{ selectedTown.nom }}
+                  {{ chosenTown.nom }}
                 </strong>
               </v-col>
             </v-row>
           </v-card-title>
           <v-card-text>
-            <v-container v-if="selectedStreet == null">
+            <v-container v-if="chosenStreet == null">
               <v-row class="justify-center">
                 <strong>Rues:</strong>
               </v-row>
-              <v-row v-for="(rue, _id) in selectedTown.rues" :key="_id" class="justify-center">
+              <v-row v-for="(rue, _id) in chosenTown.rues" :key="_id" class="justify-center">
                 <v-btn @click="selectStreet(_id)" width="200px">
                   {{ rue['nom'] }}
                 </v-btn>
@@ -66,30 +73,30 @@
                     <strong>Rue:</strong>
                   </v-row>
                   <v-row class="justify-center">
-                    <v-chip @click="clearStreet">
-                      {{ selectedStreet['nom'] }}
+                    <v-chip @click="selectStreet(null)">
+                      {{ chosenStreet['nom'] }}
                       <v-icon small>
                         mdi-close
                       </v-icon>
                     </v-chip>
                   </v-row>
-                  <v-row v-if="selectedShop != null" class="justify-center">
+                  <v-row v-if="chosenShop" class="justify-center">
                     <strong>Boutique:</strong>
                   </v-row>
-                  <v-row v-if="selectedShop != null" class="justify-center">
-                    <v-chip @click="clearShop">
-                      {{ selectedShop['nom'] }}
+                  <v-row v-if="chosenShop" class="justify-center">
+                    <v-chip @click="selectShop(null)">
+                      {{ chosenShop['nom'] }}
                       <v-icon small>
                         mdi-close
                       </v-icon>
                     </v-chip>
                   </v-row>
                 </v-col>
-                <v-col v-if="selectedShop == null" >
+                <v-col v-if="chosenShop == null" >
                   <v-row class="justify-center">
                     <strong>Boutiques:</strong>
                   </v-row >
-                  <v-row v-for="(boutique, id) in selectedStreet.boutiques" :key="id" class="justify-center">
+                  <v-row v-for="(boutique, id) in chosenStreet.boutiques" :key="id" class="justify-center">
                     <v-btn width="200px" @click="selectShop(id)">
                       {{ boutique['nom']}}
                     </v-btn>
@@ -99,7 +106,7 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="error" x-small @click="clear" >
+            <v-btn color="error" x-small @click="selecteTown(null)" >
               <v-icon>
                 mdi-close
               </v-icon>
@@ -108,7 +115,7 @@
         </v-card>
       </v-col>
       <v-col cols="8">
-        <selected-shop :shop="selectedShop"></selected-shop>
+        <selected-shop></selected-shop>
       </v-col>
     </v-row>
   </v-container>
@@ -124,24 +131,30 @@ export default {
     SelectedShop
   },
   data: () => ({
-    selectedTown: null,
-    selectedStreet: null,
-    selectedShop: null,
     filter: '',
     filterActive: false,
   }),
   computed: {
-    ...mapState(['villes']),
+    ...mapState(['villes', 'chosenShop', 'chosenStreet', 'chosenTown', 'chosenPerso']),
     villesFiltre() {
       return this.villes
     }
   },
   methods: {
+    selecteTown(id){
+      let town = this.villesFiltre[id]
+      this.$store.commit('choseTown', town)
+      this.$store.commit('choseStreet', null)
+      this.$store.commit('choseShop', null)
+    },
     selectStreet(id){
-      this.selectedStreet= this.selectedTown.rues[id]
+      let street = this.chosenTown.rues[id]
+      this.$store.commit('choseStreet', street)
+      this.$store.commit('choseShop', null)
     },
     selectShop(id){
-      this.selectedShop = this.selectedStreet.boutiques[id]
+      let shop = this.chosenStreet.boutiques[id]
+      this.$store.commit('choseShop', shop)
     },
     clear(){
       this.selectedTown = null

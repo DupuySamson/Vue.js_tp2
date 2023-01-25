@@ -1,7 +1,12 @@
 <template>
   <v-app>
     <v-main>
-      <NavBar app :titles="titles"></NavBar>
+      <NavBar app
+              :titles="titles"
+              @change_route="changeTheSlash"
+      >
+
+      </NavBar>
       <router-view/>
     </v-main>
   </v-app>
@@ -10,6 +15,7 @@
 <script>
 import { mapActions } from 'vuex';
 import NavBar from "@/components/NavBar";
+import router from "@/router";
 
 export default {
   name: 'App',
@@ -19,7 +25,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAllTowns', 'getAllCharacs'])
+    ...mapActions(['getAllTowns', 'getAllCharacs']),
+    changeTheSlash(route){
+      router.push(route)
+    }
   },
   mounted() {
     this.getAllTowns();

@@ -13,7 +13,7 @@
       <v-divider></v-divider>
       <v-list dense nav>
         <v-list-item v-for="nav in titles" :key="nav['route']" link>
-            <v-btn :href="nav['route']" :color="nav['couleur']">
+            <v-btn @click="$emit('change_route', nav.route)" :color="nav['couleur']">
               {{ nav['route'].replace('/', '') }}
             </v-btn>
         </v-list-item>

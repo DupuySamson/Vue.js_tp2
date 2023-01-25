@@ -1,7 +1,7 @@
 <template>
-    <v-card v-if="shop != null" elevation="10">
+    <v-card v-if="this.chosenShop" elevation="10">
       <v-card-title>
-        {{ shop['nom'] }}
+        {{ this.chosenShop['nom'] }}
         <v-icon>
           mdi-store
         </v-icon>
@@ -10,23 +10,23 @@
         <v-row>
           <v-col cols="6">
             <ListAndCheck  @checkedChange="itemCheck"
-                           @itemButtonChange="itemButton"
+                           @itemButtonChange="buyItem"
                            @listButtonChange="listButton"
                            :title="'Stock'"
                            :icons="{nom: 'mdi-treasure-chest', prix: 'mdi-circle-multiple'}"
-                           :items="this.shop.itemStock"
+                           :items="this.chosenShop.itemStock"
                            :fields="['nom', 'prix']"
                            :item-checked="true"
-                           :checked="getCheckedList(this.shop.itemStock)"
+                           :checked="getCheckedList(this.chosenShop.itemStock)"
                            :item-button="{show: true, text: 'achat'}"
                            :list-button="{show: true, text:'Acheter selectionnés'}">
             </ListAndCheck>
           </v-col>
           <v-col cols="6">
-            <ListAndCheck @itemButtonChange="itemButton"
+            <ListAndCheck @itemButtonChange="commandeItem"
                           :title="'Commande'"
                           :icons="{nom: 'mdi-treasure-chest', prix: 'mdi-circle-multiple'}"
-                          :items="this.shop.itemCommande"
+                          :items="this.chosenShop.itemCommande"
                           :fields="['nom', 'prix']"
                           :item-checked="false"
                           :item-button="{show: true, text: 'commande'}"
@@ -40,6 +40,7 @@
 
 <script>
 import ListAndCheck from "@/components/ListAndCheck";
+import {mapGetters, mapState} from "vuex";
 export default {
   name: "SelectedShop",
   props: {
@@ -48,13 +49,30 @@ export default {
   components: {
     ListAndCheck
   },
+  computed: {
+  ...mapState(['chosenPerso', 'chosenShop']),
+  ...mapGetters(['getOr'])
+  },
   methods: {
     getCheckedList(items){
       let checkedLst = [items.length]
       checkedLst.fill(false)
       return checkedLst
     },
-    itemButton(id) {
+    buyItem(indexItem) {
+      let item = this.chosenShop.itemStock[indexItem]
+      if(!this.chosenPerso){
+        console.log("pas de perso séléctionné")
+        return;
+      }
+      if(this.getOr < item['prix']) {
+        console.log("pas assez d'or")
+        return;
+      }
+      this.$store.commit('buyItem', item)
+      this.$store.commit('removeItem', indexItem)
+    },
+    commandeItem(id){
       console.log(id)
     },
     listButton(nom){
