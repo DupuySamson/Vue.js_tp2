@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PersosView from "@/views/PersosView.vue";
 import TownsView from "@/views/TownsView.vue";
-
 import StreetsView from "@/components/StreetsView.vue";
 import ShopsView from "@/components/ShopsView.vue"
+import slotEdit from "@/components/slotEdit.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,13 +43,27 @@ const routes = [
       }
      ]
     },
-  {
-    path: '/persos',
-    name: 'persos',
-    components: {
-     central : PersosView
+    {
+        path: '/persos',
+        name: 'persos',
+        components: {
+            central : PersosView
+        },
+        children : [
+            {
+                path: 'slot/:name',
+                name: 'slotEdit',
+                components:{
+                    slot : slotEdit,
+                },
+                props: {
+                    slot: route => {
+                        return {name: route.params.name}
+                    }
+                }
+            }
+        ]
     }
-  }
 ]
 
 const router = new VueRouter({
