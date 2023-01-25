@@ -73,6 +73,17 @@ export default {
       this.$store.commit('removeItem', indexItem)
     },
     commandeItem(id){
+      let time = Math.floor(Math.random() * (10000 - 2000 + 1) + 2000);
+      let item = this.$store.state.chosenShop.itemCommande[id];
+      console.log(item);
+      if(confirm(`commander l'item :  ${item.nom} avec un temp d'attente de ${time} ms ?`, 'Confirmation', {
+        confirmButtonText: 'Acceptez',
+        cancelButtonText: 'Refuser',
+        type: 'warning'
+      }))
+      {
+        this.$store.dispatch("order", { time: time, item: item })
+      }
       console.log(id)
     },
     listButton(nom){

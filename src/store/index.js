@@ -45,16 +45,12 @@ export default new Vuex.Store({
     removeItem(state, id) {
       state.chosenShop.itemStock.splice(id, 1)
     },
-    orderItem(){
-      console.log("ne fais rien pour le moment")
-    },
     addItem(state, item) {
       state.chosenShop.itemStock.push(item)
     },
     sellItem(state, item) {
       console.log(state, item)
-
-    }
+    },
   },
   // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
   actions: {
@@ -77,6 +73,11 @@ export default new Vuex.Store({
       else {
         console.log(response.data)
       }
+    },
+    async order(context, data){
+      setTimeout(()=>{
+        context.commit("addItem", data.item)
+      },data.time)
     }
   },
   getters :{
