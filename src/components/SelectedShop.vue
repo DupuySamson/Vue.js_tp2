@@ -23,6 +23,11 @@
             </ListAndCheck>
           </v-col>
           <v-col cols="6">
+            <v-progress-linear
+                :active="loading"
+                indeterminate
+                color="deep-purple accent-4"
+            ></v-progress-linear>
             <ListAndCheck @itemButtonChange="commandeItem"
                           :title="'Commande'"
                           :icons="{nom: 'mdi-treasure-chest', prix: 'mdi-circle-multiple'}"
@@ -35,6 +40,16 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-dialog v-model="dialog">
+        <v-card>
+          <v-card-title>Commande</v-card-title>
+          <v-card-text>Si vous commander cet item, cela prendra {{time/1000}} secondes pour arriver!</v-card-text>
+          <v-card-actions>
+            <v-btn @click="close">Annulez</v-btn>
+            <v-btn @click="acceptCommande">Accepter</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-card>
 </template>
 
@@ -43,6 +58,12 @@ import ListAndCheck from "@/components/ListAndCheck";
 import {mapGetters, mapState} from "vuex";
 export default {
   name: "SelectedShop",
+  data: () => ({
+    loading: false,
+    time: null,
+    dialog: false,
+    idItemCommande: null
+  }),
   props: {
     shop: Object
   },
@@ -73,18 +94,21 @@ export default {
       this.$store.commit('removeItem', indexItem)
     },
     commandeItem(id){
-      let time = Math.floor(Math.random() * (10000 - 2000 + 1) + 2000);
-      let item = this.$store.state.chosenShop.itemCommande[id];
-      console.log(item);
-      if(confirm(`commander l'item :  ${item.nom} avec un temp d'attente de ${time} ms ?`, 'Confirmation', {
-        confirmButtonText: 'Acceptez',
-        cancelButtonText: 'Refuser',
-        type: 'warning'
-      }))
-      {
-        this.$store.dispatch("order", { time: time, item: item })
-      }
-      console.log(id)
+      this.dialog = true
+      this.itemCommandeId = id
+      this.time = Math.floor(Math.random() * (10000 - 2000 + 1) + 2000);
+    },
+    acceptCommande(){
+      let item = this.$store.state.chosenShop.itemCommande[this.itemCommandeId];
+      this.$store.dispatch("order", { time: this.time, item: item, id:this.itemCommandeId })
+      this.close()
+      this.loading = true
+      setTimeout(()=>{
+        this.loading = false
+      }, this.time)
+    },
+    close(){
+      this.dialog = false
     },
     listButton(nom){
       console.log(nom)

@@ -45,6 +45,9 @@ export default new Vuex.Store({
     removeItem(state, id) {
       state.chosenShop.itemStock.splice(id, 1)
     },
+    removeItemCommandes(state, id) {
+      state.chosenShop.itemCommande.splice(id, 1)
+    },
     addItem(state, item) {
       state.chosenShop.itemStock.push(item)
     },
@@ -74,9 +77,10 @@ export default new Vuex.Store({
         console.log(response.data)
       }
     },
-    async order(context, data){
+    async order(context, data, id){
       setTimeout(()=>{
         context.commit("addItem", data.item)
+        context.commit("removeItemCommandes", id)
       },data.time)
     }
   },
