@@ -130,7 +130,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-dialog v-model="dialog">
+    <v-dialog width="400" v-model="dialog">
       <v-card v-if="chosenShop == null">
         <v-card-title>
           Alors...
@@ -155,7 +155,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-if="chosenPerso != null" v-model="dialogEquipe">
+    <v-dialog width="400" v-if="chosenPerso != null" v-model="dialogEquipe">
       <ListAndCheck @itemButtonChange="equipeToEmplacement" @listButtonChange="closeEquipe"
                     :title="'Sac a dos (dora rpz)'"
                     :icons="{nom: 'mdi-treasure-chest'}" :items="chosenPerso.itemsAchetes"

@@ -18,7 +18,7 @@ export default {
   name: 'App',
   data (){
     return {
-      titles: [{route:"/persos", couleur: 'grey'}, {route: "/towns", couleur: 'grey'}]
+      titles: [{path:"/persos", couleur: 'grey'}, {path: "/towns", couleur: 'grey'}]
     }
   },
   methods: {

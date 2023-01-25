@@ -3,18 +3,18 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            <strong>RPG_Vue>WOW</strong>
+            <strong>RPG_Vue >>> WOW</strong>
           </v-list-item-title>
           <v-list-item-subtitle>
-            j'adore javascript la synthaxe est niquel
+            j'adore javascript -_-
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
       <v-list dense nav>
-        <v-list-item v-for="nav in titles" :key="nav['route']" link>
-            <v-btn @click="$router.push(nav.route)" :color="nav['couleur']">
-              {{ nav['route'].replace('/', '') }}
+        <v-list-item v-for="nav in titles" :key="nav.path">
+            <v-btn @click="$router.push(nav.path)" :color="nav['couleur']">
+              {{ nav['path'].replace("/", "pute de ")}}
             </v-btn>
         </v-list-item>
       </v-list>

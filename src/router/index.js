@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import PersosView from "@/views/PersosView.vue";
+import TownsView from "@/views/TownsView.vue";
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/towns',
     name: 'towns',
-    component: {
-      central : () => import('../views/TownsView.vue')
+    components: {
+      central : TownsView
     }
   },
   {
     path: '/persos',
     name: 'persos',
-
-    component: {
-     central : () => import('../views/PersosView.vue')
+    components: {
+     central : PersosView
     }
   }
 ]
