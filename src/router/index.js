@@ -6,13 +6,17 @@ const routes = [
   {
     path: '/towns',
     name: 'towns',
-    component: () => import('../views/TownsView.vue')
+    component: {
+      central : () => import('../views/TownsView.vue')
+    }
   },
   {
     path: '/persos',
     name: 'persos',
 
-    component: () => import('../views/PersosView.vue')
+    component: {
+     central : () => import('../views/PersosView.vue')
+    }
   }
 ]
 

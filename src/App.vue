@@ -3,11 +3,9 @@
     <v-main>
       <NavBar app
               :titles="titles"
-              @change_route="changeTheSlash"
       >
-
       </NavBar>
-      <router-view/>
+      <router-view name="central"/>
     </v-main>
   </v-app>
 </template>
@@ -15,7 +13,6 @@
 <script>
 import { mapActions } from 'vuex';
 import NavBar from "@/components/NavBar";
-import router from "@/router";
 
 export default {
   name: 'App',
@@ -26,9 +23,6 @@ export default {
   },
   methods: {
     ...mapActions(['getAllTowns', 'getAllCharacs']),
-    changeTheSlash(route){
-      router.push(route)
-    }
   },
   mounted() {
     this.getAllTowns();

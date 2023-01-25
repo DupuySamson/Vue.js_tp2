@@ -3,17 +3,17 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            <strong>WoW en mieux</strong>
+            <strong>RPG_Vue>WOW</strong>
           </v-list-item-title>
           <v-list-item-subtitle>
-            tjr WoW en mieux
+            j'adore javascript la synthaxe est niquel
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
       <v-list dense nav>
         <v-list-item v-for="nav in titles" :key="nav['route']" link>
-            <v-btn @click="$emit('change_route', nav.route)" :color="nav['couleur']">
+            <v-btn @click="$router.push(nav.route)" :color="nav['couleur']">
               {{ nav['route'].replace('/', '') }}
             </v-btn>
         </v-list-item>
