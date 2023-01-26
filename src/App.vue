@@ -6,7 +6,7 @@
               @menuclicked="goTo"
       >
         <template v-slot:link="link">
-          <v-btn >
+          <v-btn block x-large>
             {{ link.link.replace("/", '') }}
           </v-btn>
         </template>

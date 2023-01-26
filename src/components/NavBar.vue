@@ -3,10 +3,12 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            <strong>RPG_Vue >>> WOW</strong>
+            <div style="max-height: 100%" class="product-image">
+              <v-img src="../assets/Rpg.png"></v-img>
+            </div>
           </v-list-item-title>
           <v-list-item-subtitle>
-            j'adore javascript -_-
+            Dupuy Samson - Foulon Hugo
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
