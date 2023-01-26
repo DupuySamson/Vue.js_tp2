@@ -77,7 +77,8 @@ export default {
   },
   methods: {
     getCheckedList(items){
-      let checkedLst = [items.length]
+      let checkedLst = new Array(items.length)
+      console.log(checkedLst.length)
       checkedLst.fill(false)
       return checkedLst
     },
@@ -111,8 +112,21 @@ export default {
     close(){
       this.dialog = false
     },
-    listButton(nom){
-      console.log(nom)
+    listButton(lst){
+      let price = 0
+      for(let i = lst.length; i>0; i--){
+        if(lst[i])
+          price += this.chosenShop.itemStock[i].prix
+      }
+      if(price <= this.getOr){
+        for(let i = lst.length; i>0; i--){
+          if(lst[i])
+            this.buyItem(i)
+        }
+        lst.fill(false)
+        return
+      }
+      console.log("pas assez d'argent")
     },
     itemCheck(id){
       console.log(id)

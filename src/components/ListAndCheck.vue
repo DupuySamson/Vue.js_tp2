@@ -19,7 +19,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="$emit('listButtonChange', 'dialoge')" v-if="listButton['show']" color="green">
+        <v-btn @click="$emit('listButtonChange', listCheck)" v-if="listButton['show']" color="green">
           {{ listButton['text'] }}
         </v-btn>
       </v-card-actions>
