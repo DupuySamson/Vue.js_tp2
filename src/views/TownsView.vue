@@ -37,7 +37,7 @@
               </v-row>
             </v-card-title>
             <v-card-actions>
-              <div v-if="villesFiltre.id == SelectedTown">
+              <div v-if="id == SelectedTown">
                 <v-btn  @click="selecteTown(id, ville); SelectedTown = id" color="success">SELECTIONNER</v-btn>
               </div>
               <div v-else>
