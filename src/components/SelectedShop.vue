@@ -83,11 +83,13 @@ export default {
     buyItem(indexItem) {
       let item = this.chosenShop.itemStock[indexItem]
       if(!this.chosenPerso){
-        console.log("pas de perso séléctionné")
+        console.log("pas de perso sélectionné")
+        alert("Pas de perso sélectionné")
         return;
       }
       if(this.getOr < item['prix']) {
         console.log("pas assez d'or")
+        alert("Pas assez d'or")
         return;
       }
       this.$store.commit('buyItem', item)
