@@ -117,8 +117,12 @@ export default {
     listButton(lst){
       let price = 0
       for(let i = lst.length; i>0; i--){
-        if(lst[i])
-          price += this.chosenShop.itemStock[i].prix
+        if(lst[i] == true)
+        {
+          price += this.chosenShop.itemStock[i].prix         
+        }
+        console.log(price)
+          
       }
       if(price <= this.getOr){
         for(let i = lst.length; i>0; i--){
