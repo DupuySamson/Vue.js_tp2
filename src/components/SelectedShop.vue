@@ -56,7 +56,7 @@
                           :item-button="{show: true, text: 'commande'}"
                           :list-button="{show: false}">
               <template v-slot:item="{itemDetails, index}">
-                {{ itemDetails.nom }}: {{ duree[index]/1000 }} s
+                {{ itemDetails.nom }}: {{ createDuree[index]/1000 }} s
               </template>
               <template v-slot:btnitem>
                 <v-btn>
@@ -99,13 +99,14 @@ export default {
     ListAndCheck
   },
   computed: {
-  ...mapState(['chosenPerso', 'chosenShop']),
-  ...mapGetters(['getOr']),
+    ...mapState(['chosenPerso', 'chosenShop']),
+    ...mapGetters(['getOr']),
     createDuree(){
+      let duree = []
       this.chosenShop.itemCommande.forEach(() =>{
-        this.duree.push(Math.floor(Math.random() * (10000 - 2000 + 1) + 2000))
+        duree.push(Math.floor(Math.random() * (10000 - 2000 + 1) + 2000))
       })
-      return this.duree
+      return duree
     }
   },
   methods: {
@@ -133,7 +134,7 @@ export default {
     commandeItem(id){
       this.dialog = true
       this.itemCommandeId = id
-      this.time = this.duree[id];
+      this.time = this.createDuree[id];
     },
     acceptCommande(){
       let item = this.$store.state.chosenShop.itemCommande[this.itemCommandeId];
