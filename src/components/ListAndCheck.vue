@@ -7,21 +7,27 @@
       <v-card-text>
         <v-row v-for="(item, indexItem) in items" :key="indexItem">
           <v-switch @change="$emit('checkedChange', indexItem)" v-if="itemChecked" v-model="listCheck[indexItem]"></v-switch>
-          <v-col v-for="(champ, indexChamp) in fields" :key="indexChamp" class="justify-center">
-            <v-icon>
-              {{ icons[champ] }}
-            </v-icon>
-            {{ item[champ] }}
-          </v-col>
-          <v-btn @click="$emit('itemButtonChange', indexItem)" v-if="itemButton['show']">
-            {{ itemButton['text'] }}
-          </v-btn>
+          <slot name="item" v-bind:itemDetails="item" v-bind:index="indexItem">
+            item
+          </slot>
+          <span @click="$emit('itemButtonChange', indexItem)" v-if="itemButton['show']">
+            <slot name="btnitem">
+              <v-btn>
+                fais qqch
+              </v-btn>
+            </slot>
+          </span>
         </v-row>
+        <v-divider v-if="listButton['show']"></v-divider>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="$emit('listButtonChange', listCheck)" v-if="listButton['show']" color="green">
-          {{ listButton['text'] }}
-        </v-btn>
+        <span @click="$emit('listButtonChange', listCheck)" v-if="listButton['show']" color="green">
+          <slot name="btnlist">
+            <v-btn>
+              fais qqch
+            </v-btn>
+          </slot>
+        </span>
       </v-card-actions>
     </v-card>
   </div>
@@ -33,7 +39,6 @@ export default {
   props: {
     title: String,
     items: Array,
-    fields: Array,
     itemChecked: Boolean,
     checked: Array,
     itemButton: Object,

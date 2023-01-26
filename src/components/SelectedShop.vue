@@ -23,8 +23,26 @@
                            :fields="['nom', 'prix']"
                            :item-checked="true"
                            :checked="getCheckedList(this.chosenShop.itemStock)"
-                           :item-button="{show: true, text: 'achat'}"
-                           :list-button="{show: true, text:'Acheter selectionnés'}">
+                           :item-button="{show: true}"
+                           :list-button="{show: true}">
+              <template v-slot:btnitem>
+                <v-btn color="blue">
+                  Achat
+                </v-btn>
+              </template>
+              <template v-slot:btnlist>
+                <v-btn color="green">
+                  Achat groupé
+                </v-btn>
+              </template>
+              <template v-slot:item="item">
+                <div>
+                  {{ item.itemDetails.nom}}: {{ item.itemDetails.prix}}
+                  <v-icon>
+                    mdi-circle-multiple
+                  </v-icon>
+                </div>
+              </template>
             </ListAndCheck>
           </v-col>
           <v-col cols="6">
@@ -37,6 +55,14 @@
                           :item-checked="false"
                           :item-button="{show: true, text: 'commande'}"
                           :list-button="{show: false}">
+              <template v-slot:item="{itemDetails, index}">
+                {{ itemDetails.nom }}: {{ duree[index]/1000 }} s
+              </template>
+              <template v-slot:btnitem>
+                <v-btn>
+                  Commander
+                </v-btn>
+              </template>
             </ListAndCheck>
           </v-col>
         </v-row>
@@ -63,7 +89,8 @@ export default {
     loading: false,
     time: null,
     dialog: false,
-    idItemCommande: null
+    idItemCommande: null,
+    duree: []
   }),
   props: {
     shop: Object
@@ -73,7 +100,13 @@ export default {
   },
   computed: {
   ...mapState(['chosenPerso', 'chosenShop']),
-  ...mapGetters(['getOr'])
+  ...mapGetters(['getOr']),
+    createDuree(){
+      this.chosenShop.itemCommande.forEach(() =>{
+        this.duree.push(Math.floor(Math.random() * (10000 - 2000 + 1) + 2000))
+      })
+      return this.duree
+    }
   },
   methods: {
     getCheckedList(items){
@@ -100,12 +133,13 @@ export default {
     commandeItem(id){
       this.dialog = true
       this.itemCommandeId = id
-      this.time = Math.floor(Math.random() * (10000 - 2000 + 1) + 2000);
+      this.time = this.duree[id];
     },
     acceptCommande(){
       let item = this.$store.state.chosenShop.itemCommande[this.itemCommandeId];
       this.$store.dispatch("order", { time: this.time, item: item, id:this.itemCommandeId })
       this.close()
+      this.duree.splice(this.itemCommandeId, 1)
       this.loading = true
       setTimeout(()=>{
         this.loading = false
