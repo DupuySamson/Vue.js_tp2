@@ -26,10 +26,11 @@
                            :item-button="{show: true}"
                            :list-button="{show: true}">
               <template v-slot:btnitem>
-                <v-btn color="blue">
+                <v-btn :right="true" :absolute="true" color="blue">
                   Achat
                 </v-btn>
               </template>
+              
               <template v-slot:btnlist>
                 <v-btn color="green">
                   Achat groupé
@@ -46,7 +47,7 @@
             </ListAndCheck>
           </v-col>
           <v-col cols="6">
-
+            <v-row>
             <ListAndCheck @itemButtonChange="commandeItem"
                           :title="'Commande'"
                           :icons="{nom: 'mdi-treasure-chest', prix: 'mdi-circle-multiple'}"
@@ -55,6 +56,7 @@
                           :item-checked="false"
                           :item-button="{show: true, text: 'commande'}"
                           :list-button="{show: false}">
+
               <template v-slot:item="{itemDetails, index}">
                 {{ itemDetails.nom }}: {{ createDuree[index]/1000 }} s
               </template>
@@ -64,6 +66,7 @@
                 </v-btn>
               </template>
             </ListAndCheck>
+          </v-row>
           </v-col>
         </v-row>
       </v-card-text>

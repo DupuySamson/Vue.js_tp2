@@ -13,7 +13,6 @@
           <span @click="$emit('itemButtonChange', indexItem)" v-if="itemButton['show']">
             <slot name="btnitem">
               <v-btn>
-                fais qqch
               </v-btn>
             </slot>
           </span>
