@@ -17,10 +17,12 @@
               </v-row>
               <v-row>
               <span>
-                {{ chosenPerso.or }}
-              <v-icon>
-                mdi-circle-multiple
-              </v-icon>
+                <slot name="or" v-bind:or="chosenPerso.or">
+                  {{ chosenPerso.or }}
+                  <v-icon>
+                    mdi-circle-multiple
+                  </v-icon>
+                </slot>
               </span>
               </v-row>
             </v-col>
@@ -35,10 +37,24 @@
                 </v-card-title>
                 <v-card-text>
                   <v-row>
-                    Niveau: {{ chosenPerso.niveau }}
+                    <slot name="niv" v-bind:niv="chosenPerso.niveau">
+                      Niveau: {{ chosenPerso.niveau }}
+                    </slot>
                   </v-row>
-                  <v-row v-for="name in Object.keys(chosenPerso.attributs)" :key="name">
-                    {{ name }}: {{ chosenPerso.attributs[name] }}
+                  <v-row>
+                    <slot name="vie" v-bind:vie="chosenPerso.attributs.vie" v-bind:vita="chosenPerso.attributs.vitalite">
+                      vie: {{ chosenPerso.attributs.vie}} / {{ chosenPerso.attributs.vitalite}}
+                    </slot>
+                  </v-row>
+                  <v-row>
+                    <v-slot name="force" v-bind:force="chosenPerso.attributs.force">
+                      force: {{ chosenPerso.attributs.force}}
+                    </v-slot>
+                  </v-row>
+                  <v-row>
+                    <slot name="protec" v-bind:protec="chosenPerso.attributs.protection">
+                      protection: {{ chosenPerso.attributs.protection}}
+                    </slot>
                   </v-row>
                 </v-card-text>
               </v-card>
