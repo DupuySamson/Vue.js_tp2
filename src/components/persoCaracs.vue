@@ -66,7 +66,7 @@
                     <v-card-title>Inventaire</v-card-title>
                     <v-card-text>
                       <v-row v-for="(emplacement, idE) in chosenPerso.emplacements" :key="idE">
-                        <v-btn @click="$router.push({name: 'slotEdit', params: {name: emplacement.nom}})"> {{ emplacement.nom }}  {{ emplacement.items.length}}</v-btn>
+                        <v-btn block @click="$router.push({name: 'slotEdit', params: {name: emplacement.nom}})"> {{ emplacement.nom }}  {{ emplacement.items.length}}</v-btn>
                       </v-row>
                     </v-card-text>
                   </v-card>

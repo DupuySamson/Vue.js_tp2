@@ -1,27 +1,27 @@
 <template>
-                 <div> 
-                  <v-row v-if="chosenShop" class="justify-center">                
-                    <strong>Boutique:</strong>
-                  </v-row>
-                  <v-row v-if="chosenShop" class="justify-center">
-                    <v-chip @click="selectShop(null)">
-                      {{ chosenShop['nom'] }}
-                      <v-icon small>
-                        mdi-close
-                      </v-icon>
-                    </v-chip>
-                  </v-row>
-                <v-col v-if="chosenShop == null" >
-                  <v-row class="justify-center">
-                    <strong>Boutiques:</strong>
-                  </v-row >
-                  <v-row v-for="(boutique, id) in chosenStreet.boutiques" :key="id" class="justify-center">
-                    <v-btn width="200px" @click="selectShop(id)">
-                      {{ boutique['nom']}}
-                    </v-btn>                  
-                  </v-row>
-                </v-col>
-              </div>
+   <div>
+    <v-row v-if="chosenShop" class="justify-center">
+      <strong>Boutique:</strong>
+    </v-row>
+    <v-row v-if="chosenShop" class="justify-center">
+      <v-chip @click="selectShop(null)">
+        {{ chosenShop['nom'] }}
+        <v-icon small>
+          mdi-close
+        </v-icon>
+      </v-chip>
+    </v-row>
+  <v-col v-if="chosenShop == null" >
+    <v-row class="justify-center">
+      <strong>Boutiques:</strong>
+    </v-row >
+    <v-row v-for="(boutique, id) in chosenStreet.boutiques" :key="id" class="justify-center">
+      <v-btn width="200px" @click="selectShop(id)">
+        {{ boutique['nom']}}
+      </v-btn>
+    </v-row>
+  </v-col>
+</div>
                 
   </template>
   
