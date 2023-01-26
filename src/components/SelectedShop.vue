@@ -1,5 +1,10 @@
 <template>
     <v-card v-if="this.chosenShop" elevation="10">
+      <v-progress-linear
+          :active="loading"
+          indeterminate
+          color="deep-purple accent-4"
+      ></v-progress-linear>
       <v-card-title>
         {{ this.chosenShop['nom'] }}
         <v-icon>
@@ -23,11 +28,7 @@
             </ListAndCheck>
           </v-col>
           <v-col cols="6">
-            <v-progress-linear
-                :active="loading"
-                indeterminate
-                color="deep-purple accent-4"
-            ></v-progress-linear>
+
             <ListAndCheck @itemButtonChange="commandeItem"
                           :title="'Commande'"
                           :icons="{nom: 'mdi-treasure-chest', prix: 'mdi-circle-multiple'}"

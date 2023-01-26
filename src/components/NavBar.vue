@@ -11,13 +11,13 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list dense nav>
-        <v-list-item v-for="nav in titles" :key="nav.path">
-            <v-btn @click="$router.push(nav.path)" :color="nav['couleur']">
-              {{ nav['path'].replace("/", "pute de ")}}
-            </v-btn>
-        </v-list-item>
-      </v-list>
+      <div v-for="(nav, id) in titles" :key="id">
+        <span @click="goTo(id)">
+        <slot name="link" v-bind:link="nav.path">
+        {{ nav.path }}
+        </slot>
+      </span>
+      </div>
     </v-navigation-drawer>
 </template>
 
@@ -26,6 +26,11 @@ export default {
   name: 'NavBar',
   props: {
     titles: Array
+  },
+  methods: {
+    goTo(id){
+      this.$emit('menuclicked', id)
+    }
   }
 }
 </script>
