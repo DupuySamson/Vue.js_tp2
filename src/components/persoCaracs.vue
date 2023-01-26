@@ -64,7 +64,16 @@
                             :fields="['nom', 'type']" :item-checked="false"
                             :item-button="{show: true, text: 'revente'}"
                             :list-button="{show: false, text:''}"
-              ></ListAndCheck>
+              >
+                <template v-slot:item="item">
+                  {{ item.itemDetails.nom }}
+                </template>
+                <template v-slot:btnitem>
+                  <v-btn>
+                    vendre
+                  </v-btn>
+                </template>
+              </ListAndCheck>
             </v-col>
           </v-row>
         </v-card-text>
